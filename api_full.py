@@ -14,7 +14,7 @@ app = Flask(__name__)
 from flask_cors import CORS
 CORS(app)
 
-FPL_ID = 201605 # Use your FPL ID here (Have mentioned how to find this ID in the README.md)
+FPL_ID = 0 # Use your FPL ID here (Have mentioned how to find this ID in the README.md)
 
 def get_fpl_entry_info(fpl_id):
     url = f"https://fantasy.premierleague.com/api/entry/{fpl_id}/"
