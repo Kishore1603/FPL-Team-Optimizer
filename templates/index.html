@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPL Team Optimizer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>FPL Team Optimizer</h1>
+        <form method="post" action="/">
+            <button type="submit">Optimize Team</button>
+        </form>
+        {% if fpl_info %}
+        <section>
+            <h2>FPL Info</h2>
+            <ul class="fpl-info-list">
+                <li><span class="fpl-info-purple">Player Name:</span> <span class="fpl-info-purple">{{ fpl_info.player_name }}</span></li>
+                <li><span class="fpl-info-purple">Team Name:</span> <span class="fpl-info-purple">{{ fpl_info.team_name }}</span></li>
+                <li><span class="fpl-info-purple">Overall Points:</span> <span class="fpl-info-purple">{{ fpl_info.overall_points }}</span></li>
+                <li><span class="fpl-info-purple">Overall Rank:</span> <span class="fpl-info-purple">{{ fpl_info.overall_rank }}</span></li>
+                <li><span class="fpl-info-purple">Value:</span> <span class="fpl-info-purple">{{ fpl_info.value }}</span></li>
+                <li><span class="fpl-info-purple">Bank:</span> <span class="fpl-info-purple">{{ fpl_info.bank }}</span></li>
+                <li><span class="fpl-info-purple">Total Transfers:</span> <span class="fpl-info-purple">{{ fpl_info.total_transfers }}</span></li>
+                <li><span class="fpl-info-purple">Gameweek:</span> <span class="fpl-info-purple">{{ fpl_info.gameweek }}</span></li>
+            </ul>
+        </section>
+        {% endif %}
+        {% if recommended_team %}
+        <section>
+            <h2>Recommended Team</h2>
+            <p><strong>Total Points Used:</strong> {{ total_points_used }}</p>
+            <p><strong>Total Expected Points:</strong> {{ total_expected_points|round(2) }}</p>
+            <table>
+                <tr><th>Name</th><th>Position</th><th>Team</th><th>Price</th><th>Expected Points</th><th>Total Points</th></tr>
+                {% for p in recommended_team %}
+                <tr>
+                    <td>{{ p.web_name }}</td>
+                    <td>{{ p.position }}</td>
+                    <td>{{ p.team_name }}</td>
+                    <td>{{ p.price }}</td>
+                    <td>{{ p.expected_points|round(2) }}</td>
+                    <td>{{ p.total_points|default(0)|round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+        {% endif %}
+        {% if current_team %}
+        <section>
+            <h2>Current Team</h2>
+            <table>
+                <tr><th>Name</th><th>Position</th><th>Team</th><th>Price</th><th>Expected Points</th></tr>
+                {% for p in current_team %}
+                <tr>
+                    <td>{{ p.web_name }}</td>
+                    <td>{{ p.position }}</td>
+                    <td>{{ p.team_name }}</td>
+                    <td>{{ p.price }}</td>
+                    <td>{{ p.expected_points|round(2) }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+        {% endif %}
+        {% if transfer %}
+        <section>
+            <h2>Suggested Transfer</h2>
+            <p><strong>Out:</strong> {{ transfer.out.web_name }} ({{ transfer.out.position }})</p>
+            <p><strong>In:</strong> {{ transfer.in.web_name }} ({{ transfer.in.position }})</p>
+            <p><strong>Reason:</strong> {{ transfer.reason }}</p>
+            <p><strong>Expected Gain:</strong> {{ transfer.gain|round(2) }}</p>
+        </section>
+        {% endif %}
+        <section>
+            <h2>Captain & Vice Captain</h2>
+            <p><strong>Captain:</strong> {{ captain.web_name if captain else 'None' }}</p>
+            <p><strong>Vice Captain:</strong> {{ vice_captain.web_name if vice_captain else 'None' }}</p>
+        </section>
+    </div>
+</body>
+</html>
